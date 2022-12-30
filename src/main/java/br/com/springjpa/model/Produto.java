@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.com.springjpa.model.enums.Categorias;
 import lombok.Data;
 
 @Data
@@ -27,4 +30,7 @@ public class Produto implements Serializable {
 	private String descricao;
 
 	private BigDecimal preco;
+	
+	@Enumerated(EnumType.STRING)
+	private Categorias categorias;
 }
