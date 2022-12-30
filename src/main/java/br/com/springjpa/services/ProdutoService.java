@@ -11,7 +11,7 @@ import br.com.springjpa.model.Produto;
 import br.com.springjpa.repositories.ProdutoRepository;
 
 @Service
-public class ProdutoServices {
+public class ProdutoService {
 
 	@Autowired
 	private ProdutoRepository repository;
