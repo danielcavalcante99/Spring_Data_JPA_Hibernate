@@ -29,18 +29,21 @@ public class SpringJpaApplication implements CommandLineRunner {
 		Produto celular = new Produto();
 		celular.setNome("Samsung S10");
 		celular.setPreco(new BigDecimal(2500.89));
+		celular.setAtivo(false);
 		celular.setCategorias(Categorias.CELULARES);
 		celular.setDescricao("Samsung Galaxy S10 128 GB preto-prisma 8 GB RAM");
 
 		Produto celular2 = new Produto();
 		celular2.setNome("Samsung S20");
 		celular2.setPreco(new BigDecimal(4500.89));
+		celular2.setAtivo(false);
 		celular2.setCategorias(Categorias.CELULARES);
 		celular2.setDescricao("Samsung Galaxy S22 128 GB preto-prisma 16 GB RAM");
 
 		Produto livro = new Produto();
 		livro.setNome("O poder do hábito");
 		livro.setPreco(new BigDecimal(36.99));
+		livro.setAtivo(true);
 		livro.setCategorias(Categorias.LIVROS);
 		livro.setDescricao("O poder do hábito Capa comum ");
 
@@ -62,6 +65,12 @@ public class SpringJpaApplication implements CommandLineRunner {
 		// select buscar todos
 		System.out.println("SELECT: Buscar Todos OrderBy descricao ASC");
 		listProduto = this.service.findAll(Sort.by(Sort.Direction.ASC, "descricao"));
+		listProduto.forEach(System.out::println);
+		System.out.println("...");
+		
+		// select por %nome%
+		System.out.println("SELECT LIKE: Buscar contendo %nome%");
+		listProduto = this.service.findByNomeContaining("Samsung S");
 		listProduto.forEach(System.out::println);
 		System.out.println("...");
 
