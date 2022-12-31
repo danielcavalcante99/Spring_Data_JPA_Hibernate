@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.springjpa.model.Produto;
@@ -24,12 +25,28 @@ public class ProdutoService {
 		return this.repository.findAll();
 	}
 
+	public List<Produto> findAll(Sort sort) {
+		return this.repository.findAll(sort);
+	}
+
 	public List<Produto> findProdutosPrecoMaior(BigDecimal preco) {
 		return this.repository.findProdutosPrecoMaior(preco);
 	}
 
 	public List<Produto> findByDescricao(String descricao) {
 		return this.repository.findByDescricao(descricao);
+	}
+
+	public List<Produto> findByNomeStartsWith(String nome) {
+		return this.repository.findByNomeStartsWith(nome);
+	}
+
+	public List<Produto> findByNomeEndsWith(String nome) {
+		return this.repository.findByNomeEndsWith(nome);
+	}
+
+	public List<Produto> findByNomeLike(String nome) {
+		return this.repository.findByNomeLike(nome);
 	}
 
 	public Produto insert(Produto produto) {
@@ -44,7 +61,7 @@ public class ProdutoService {
 	public Produto delete(Produto produto) {
 		try {
 			Optional<Produto> optProduto = this.findById(produto.getId());
-			
+
 			if (optProduto.isPresent()) {
 				Produto entity = optProduto.get();
 				this.repository.delete(entity);
@@ -58,7 +75,7 @@ public class ProdutoService {
 	public Produto update(Produto produto) {
 		try {
 			Optional<Produto> optProduto = this.findById(produto.getId());
-			
+
 			if (optProduto.isPresent()) {
 				this.repository.save(produto);
 			}
