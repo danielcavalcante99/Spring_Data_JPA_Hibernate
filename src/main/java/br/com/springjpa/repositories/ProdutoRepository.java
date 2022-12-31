@@ -21,10 +21,10 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	public List<Produto> findByDescricao(@Param("P_DESCRICAO") String descricao);
 	
     // Consulta descrição IS NULL.
-    List<Produto> findByDescricaoIsNull(); 
+	public List<Produto> findByDescricaoIsNull(); 
     
     // Consulta ordenando pela descrição.
-    List<Produto> findByNomeStartingWithOrderByDescricao(String nome);
+	public List<Produto> findByNomeStartingWithOrderByDescricao(String nome);
 	
 	//consulta Like nome%
 	public List<Produto> findByNomeStartsWith(String nome);
@@ -33,31 +33,31 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	public List<Produto> findByNomeEndsWith(String nome);
 	
 	//consulta Like nome% (Ignorando se as letras é minúsculas ou maiúsculas)
-    List<Produto> findByNomeStartingWithIgnoreCase(String nome);
+	public List<Produto> findByNomeStartingWithIgnoreCase(String nome);
     
     // consulta Like %nome%
-    List<Produto> findByNomeContaining(String nome);
+	public List<Produto> findByNomeContaining(String nome);
 	
 	//consulta Like - nesse caso além do nome também deverá ser passado junto o caracter "%". 
 	//Ex: findByNomeLike("Samsung%")
 	public List<Produto> findByNomeLike(String nome);
 	
     // Consulta passando duas propriedades como parâmetro: nome e ativo.
-    List<Produto> findByNomeStartingWithIgnoreCaseAndAtivoEquals(String nome, boolean ativo);
+	public List<Produto> findByNomeStartingWithIgnoreCaseAndAtivoEquals(String nome, boolean ativo);
 	
     // consulta produtos ativos
 	// Pode ser usado False também.
-    List<Produto> findByAtivoTrue();
+	public List<Produto> findByAtivoTrue();
     
     // consulta produtos com a data de cadastro posterior a data passada no parâmetro. 
     // Pode ser usado Before também.
-    List<Produto> findByDataCadastroAfter(Instant dataCadastro);
+	public List<Produto> findByDataCadastroAfter(Instant dataCadastro);
     
     // consulta produtos com a data de cadastro de um determinado período
-    List<Produto> findByDataCadastroBetween(Instant inicio, Instant fim);
+	public List<Produto> findByDataCadastroBetween(Instant inicio, Instant fim);
     
     // consulta o preço dos produtos "menor que".
     // Poderia ser usado também LessThanEqual, GreaterThan, GreaterThanEqual.
-    List<Produto> findByPrecoLessThan(BigDecimal preco);
+	public List<Produto> findByPrecoLessThan(BigDecimal preco);
 
 }
