@@ -48,6 +48,14 @@ public class ProdutoService {
 	public List<Produto> findByNomeLike(String nome) {
 		return this.repository.findByNomeLike(nome);
 	}
+	
+	public List<Produto> findByPrecoLessThan(BigDecimal preco) {
+		return this.repository.findByPrecoLessThan(preco);
+	}
+	
+	public List<Produto> findByNomeContaining(String nome) {
+		return this.repository.findByNomeContaining(nome);
+	}
 
 	public Produto insert(Produto produto) {
 		try {
