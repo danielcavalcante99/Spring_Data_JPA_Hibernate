@@ -1,4 +1,4 @@
-# Spring Data JPA Hibernate
+#  🧑🏽‍💻 👨🏽‍💻 Spring Data JPA Hibernate
 
 <b>Introdução:</b>
 - Qual o propósito do Spring Data JPA;
@@ -23,8 +23,9 @@ O propósito do <b>Spring Data JPA</b> é facilitar a implementação de reposit
 
 ### 3 - Entendendo na prática como o Spring Data JPA facilita a implementação de repositórios:
 
-Entidade: Produto.class
-package br.com.springjpa.model;
+<b>Entidade:</b> Produto.class
+
+<b>package:</b> br.com.springjpa.model;
 ~~~
 @Data
 @Entity
@@ -43,14 +44,32 @@ public class Produto implements Serializable {
 
 	private BigDecimal preco;
 	
+	private boolean ativo;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", timezone = "GMT")
+	private Instant dataCadastro = Instant.now();
+	
 	@Enumerated(EnumType.STRING)
 	private Categorias categorias;
 }
 ~~~
 
+### Ao estender o JpaRepository obtemos os métodos CRUD já prontos
 
-Entidade: ProdutoRepository.class
-package br.com.springjpa.repositories;
+Obtemos os métodos CRUD mais relevantes para acesso a dados apenas se a interface <b>extender</b> o <b>JpaRepository</b>. Então aqui um ponto bastante positivo do <b>Spring Data JPA</b>, pois realmente não precisa do desenvolvedor criar na mão os métodos do CRUD.
+
+<b>repositorio:</b> ProdutoRepository.class
+
+<b>package:</b> br.com.springjpa.repositories;
+~~~
+public interface ProdutoRepository extends JpaRepository<Produto, Long> {
+}
+~~~
+
+### Consultas com a annotation @Query e com assinatura do método
+
+Se quisermos construir consultas bem específicas podemos utilizar a annotation @Query que permite realizar consulta em <b>JPQL</b> ou com próprio <b>SQL nativo</b>, muito legal todos esses recursos, mas ainda não acabou! O <b>Spring Data JPA</b> surpreende ainda mais com seu super recurso de compreender e criar consultas a partir apenas das assinaturas dos métodos.
+
 ~~~
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	
@@ -62,45 +81,45 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	@Query(value = "SELECT * FROM PRODUTOS WHERE DESCRICAO LIKE :P_DESCRICAO%", nativeQuery = true)
 	public List<Produto> findByDescricao(@Param("P_DESCRICAO") String descricao);
 	
-   // Consulta descrição IS NULL.
-   List<Produto> findByDescricaoIsNull(); 
+    // Consulta descrição IS NULL.
+	public List<Produto> findByDescricaoIsNull(); 
     
-   // Consulta ordenando pela descrição.
-   List<Produto> findByNomeStartingWithOrderByDescricao(String nome);
+    // Consulta ordenando pela descrição.
+	public List<Produto> findByNomeStartingWithOrderByDescricao(String nome);
 	
-    //consulta Like nome%
-    public List<Produto> findByNomeStartsWith(String nome);
-
-    //consulta Like %nome 
-    public List<Produto> findByNomeEndsWith(String nome);
-
-    //consulta Like nome% (Ignorando se as letras é minúsculas ou maiúsculas)
-      List<Produto> findByNomeStartingWithIgnoreCase(String nome);
+	//consulta Like nome%
+	public List<Produto> findByNomeStartsWith(String nome);
+	
+	//consulta Like %nome 
+	public List<Produto> findByNomeEndsWith(String nome);
+	
+	//consulta Like nome% (Ignorando se as letras é minúsculas ou maiúsculas)
+	public List<Produto> findByNomeStartingWithIgnoreCase(String nome);
     
     // consulta Like %nome%
-    List<Produto> findByNomeContaining(String nome);
+	public List<Produto> findByNomeContaining(String nome);
 	
 	//consulta Like - nesse caso além do nome também deverá ser passado junto o caracter "%". 
 	//Ex: findByNomeLike("Samsung%")
 	public List<Produto> findByNomeLike(String nome);
 	
     // Consulta passando duas propriedades como parâmetro: nome e ativo.
-    List<Produto> findByNomeStartingWithIgnoreCaseAndAtivoEquals(String nome, boolean ativo);
+	public List<Produto> findByNomeStartingWithIgnoreCaseAndAtivoEquals(String nome, boolean ativo);
 	
     // consulta produtos ativos
 	// Pode ser usado False também.
-    List<Produto> findByAtivoTrue();
+	public List<Produto> findByAtivoTrue();
     
     // consulta produtos com a data de cadastro posterior a data passada no parâmetro. 
     // Pode ser usado Before também.
-    List<Produto> findByDataCadastroAfter(Instant dataCadastro);
+	public List<Produto> findByDataCadastroAfter(Instant dataCadastro);
     
     // consulta produtos com a data de cadastro de um determinado período
-    List<Produto> findByDataCadastroBetween(Instant inicio, Instant fim);
+	public List<Produto> findByDataCadastroBetween(Instant inicio, Instant fim);
     
     // consulta o preço dos produtos "menor que".
     // Poderia ser usado também LessThanEqual, GreaterThan, GreaterThanEqual.
-    List<Produto> findByPrecoLessThan(BigDecimal preco);
+	public List<Produto> findByPrecoLessThan(BigDecimal preco);
 
 }
 ~~~
