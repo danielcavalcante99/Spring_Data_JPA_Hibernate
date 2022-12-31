@@ -11,11 +11,15 @@ import br.com.springjpa.model.Produto;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
-	@Query("SELECT p FROM produtos p WHERE p.preco > :P_PRECO")
+	@Query("SELECT p FROM Produto p WHERE p.preco > :P_PRECO")
 	public List<Produto> findProdutosPrecoMaior(@Param("P_PRECO") BigDecimal preco);
 
-	@Query(value = "SELECT * FROM PRODUTOS WHERE LIKE DESCRICAO LIKE :P_DESCRICAO%", nativeQuery = true)
+	@Query(value = "SELECT * FROM PRODUTOS WHERE DESCRICAO LIKE :P_DESCRICAO%", nativeQuery = true)
 	public List<Produto> findByDescricao(@Param("P_DESCRICAO") String descricao);
+
+	public List<Produto> findByNomeStartsWith(String nome);
+
+	public List<Produto> findByNomeEndsWith(String nome);
 
 	public List<Produto> findByNomeLike(String nome);
 
